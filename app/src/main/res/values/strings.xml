@@ -1,3 +1,46 @@
 <resources>
     <string name="app_name">Hologram-Beta</string>
+
+    <string name="tab_name_live" translatable="false">ライブ</string>
+    <string name="tab_name_schedule" translatable="false">配信予定</string>
+    <string name="tab_name_archive" translatable="false">アーカイブ</string>
+
+    <string name="live_item_empty" translatable="false">配信中のアイテムはありません</string>
+
+    <string name="seconds_ago_suffix" translatable="false"> 秒前</string>
+    <string name="minutes_ago_suffix" translatable="false"> 分前</string>
+    <string name="hours_ago_suffix" translatable="false"> 時間前</string>
+    <string name="days_ago_suffix" translatable="false"> 日前</string>
+
+    <string name="separate_string" translatable="false">・</string>
+
+
+    <string name="live_item_start_suffix" translatable="false">に配信開始</string>
+
+
+    <string name="setting_filter_holo_JP">ホロライブ</string>
+    <string name="setting_filter_holo_ID">ホロライブID</string>
+    <string name="setting_filter_holo_EN">ホロライブEN</string>
+    <string name="setting_filter_holo_stars">ホロスターズ</string>
+
+    <string name="setting_time_notation_12hour">12時間</string>
+    <string name="setting_time_notation_24hour">24時間</string>
+
+
+    <string name="setting_open_app_youtube" translatable="false">YouTube</string>
+    <string name="setting_open_app_browser" translatable="false">初期ブラウザ</string>
+    <string name="setting_open_app_web_view" translatable="false">WebView</string>
+
+    <string name="setting_dialog_cancel_label" translatable="false">キャンセル</string>
+
+    <string name="tag_category_game" translatable="false">ゲーム</string>
+    <string name="tag_category_sing" translatable="false">歌枠</string>
+    <string name="tag_category_live" translatable="false">LIVE</string>
+    <string name="tag_category_chat" translatable="false">雑談</string>
+    <string name="tag_category_birthday" translatable="false">生誕祭</string>
+    <string name="tag_category_song" translatable="false">オリジナル曲</string>
+    <string name="tag_category_drawing" translatable="false">お絵かき</string>
+    <string name="tag_category_watch_along" translatable="false">同時視聴</string>
+    <string name="tag_category_cover" translatable="false">歌ってみた</string>
+    <string name="tag_member_hololive" translatable="false">Hololive</string>
 </resources>
