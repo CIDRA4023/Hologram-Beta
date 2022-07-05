@@ -43,4 +43,8 @@
     <string name="tag_category_watch_along" translatable="false">同時視聴</string>
     <string name="tag_category_cover" translatable="false">歌ってみた</string>
     <string name="tag_member_hololive" translatable="false">Hololive</string>
+
+
+    <string name="ad_id_banner">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_id_interstitial">ca-app-pub-3940256099942544/1033173712</string>
 </resources>

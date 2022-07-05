@@ -104,6 +104,9 @@ dependencies {
     // Coil
     implementation "io.coil-kt:coil-compose:2.0.0-rc03"
 
+    // Mobile Ads SDK
+    implementation 'com.google.android.gms:play-services-ads:21.0.0'
+
     // speed-dial
     implementation 'de.charlex.compose:speeddial:1.0.0-beta03'
 }

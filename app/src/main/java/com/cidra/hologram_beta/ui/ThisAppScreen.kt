@@ -27,6 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.cidra.hologram_beta.BuildConfig
+import com.cidra.hologram_beta.ui.screens.archive.component.adBanner
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
@@ -167,6 +168,7 @@ fun MainThisAppContent(navController: NavController, navBackStackEntry: NavBackS
 //            )
             }
         }
+        adBanner()
 
 
     }

@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import com.cidra.hologram_beta.R
+import com.cidra.hologram_beta.ui.screens.archive.component.adBanner
 
 
 data class SettingItem(
@@ -179,6 +180,7 @@ fun SettingContent(viewModel: SettingViewModel) {
 
         }
     }
+    adBanner()
 
 
 }

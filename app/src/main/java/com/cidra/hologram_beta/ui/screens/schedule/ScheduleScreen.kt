@@ -2,10 +2,7 @@ package com.cidra.hologram_beta.ui.screens.schedule
 
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
@@ -19,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cidra.hologram_beta.R
+import com.cidra.hologram_beta.ui.screens.archive.component.adBanner
 import com.cidra.hologram_beta.ui.screens.schedule.component.HeaderItem
 import com.cidra.hologram_beta.ui.screens.schedule.component.ScheduleListItem
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -59,6 +57,13 @@ fun ScheduleScreen(viewModel: ScheduleScreenViewModel = hiltViewModel()) {
                                 ScheduleListItem(item = item, settingValue = timeNotation.value)
                             }
                         )
+                        item {
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp)
+                            )
+                        }
                     }
 
 
@@ -74,6 +79,13 @@ fun ScheduleScreen(viewModel: ScheduleScreenViewModel = hiltViewModel()) {
                                 ScheduleListItem(item = item, settingValue = timeNotation.value)
                             }
                         )
+                        item {
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp)
+                            )
+                        }
                     }
 
                 }
@@ -98,6 +110,13 @@ fun ScheduleScreen(viewModel: ScheduleScreenViewModel = hiltViewModel()) {
                                 ScheduleListItem(item = item, settingValue = timeNotation.value)
                             }
                         )
+                        item {
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp)
+                            )
+                        }
                     }
 
                 }
@@ -117,7 +136,7 @@ fun ScheduleScreen(viewModel: ScheduleScreenViewModel = hiltViewModel()) {
             }
         }
 
-        Box() {
+        Box {
             if (state.error.isNotBlank()) {
                 Text(
                     text = "通信エラー",
@@ -128,6 +147,7 @@ fun ScheduleScreen(viewModel: ScheduleScreenViewModel = hiltViewModel()) {
                         .padding(horizontal = 20.dp)
                         .align(Alignment.Center)
                 )
+                adBanner()
             }
             if (state.isLoading) {
                 CircularProgressIndicator(
@@ -136,6 +156,7 @@ fun ScheduleScreen(viewModel: ScheduleScreenViewModel = hiltViewModel()) {
 
             }
         }
+        adBanner()
 
     }
 

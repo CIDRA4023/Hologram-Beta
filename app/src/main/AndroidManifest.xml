@@ -23,6 +23,10 @@
         android:theme="@style/Theme.HologramBeta"
         android:name="com.cidra.hologram_beta.ui.Application"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+
         <activity
             android:name="com.cidra.hologram_beta.ui.MainActivity"
             android:exported="true"

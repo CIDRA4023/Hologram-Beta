@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cidra.hologram_beta.R
+import com.cidra.hologram_beta.ui.screens.archive.component.adBanner
 import com.cidra.hologram_beta.ui.screens.live.component.LiveListItem
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -57,6 +58,13 @@ fun LiveScreen(viewModel: LiveScreenViewModel = hiltViewModel()) {
                             LiveListItem(item = live, settingValue = openAppValue.value)
                         }
                     )
+                    item {
+                        Spacer(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp)
+                        )
+                    }
                 }
             } else if (state.isLoading.not() && state.live.isEmpty()) {
                 LazyColumn(
@@ -69,6 +77,13 @@ fun LiveScreen(viewModel: LiveScreenViewModel = hiltViewModel()) {
                             text = stringResource(R.string.live_item_empty),
                             style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold),
                             modifier = Modifier.padding(16.dp)
+                        )
+                    }
+                    item {
+                        Spacer(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp)
                         )
                     }
                 }
@@ -94,6 +109,8 @@ fun LiveScreen(viewModel: LiveScreenViewModel = hiltViewModel()) {
 
             }
         }
+
+        adBanner()
 
     }
 

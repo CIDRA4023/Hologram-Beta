@@ -37,6 +37,7 @@ import com.cidra.hologram_beta.ui.screens.setting.SettingViewModel
 import com.cidra.hologram_beta.ui.theme.HologramBeta
 import com.google.accompanist.pager.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.android.gms.ads.MobileAds
 import com.google.firebase.BuildConfig
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -73,6 +74,9 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+        //initialize the mobile ads sdk
+        MobileAds.initialize(this) {}
     }
 }
 
