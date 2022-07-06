@@ -208,7 +208,7 @@ private fun openIntentChooser(context: Context) {
     val intent = Intent().apply {
         action = Intent.ACTION_SEND
         type = "text/plain"
-        putExtra(Intent.EXTRA_TEXT, "shareData")
+        putExtra(Intent.EXTRA_TEXT, R.string.share_app_desc)
     }
 
     if (intent.resolveActivity(context.packageManager) != null) {

@@ -44,6 +44,7 @@
     <string name="tag_category_cover" translatable="false">歌ってみた</string>
     <string name="tag_member_hololive" translatable="false">Hololive</string>
 
+    <string name="share_app_desc">「ホロ・グラム」を使ってホロライブVtuberの配信動画をチェック！\n\nPlayストアで絶賛配信中！\nhttps://cutt.ly/jQ4Tl24 \n\n #Hologram #ホロ・グラム</string>
 
     <string name="ad_id_banner">ca-app-pub-3940256099942544/6300978111</string>
     <string name="ad_id_interstitial">ca-app-pub-3940256099942544/1033173712</string>
