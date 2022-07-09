@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -37,7 +36,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(
     ExperimentalMaterialApi::class, ExperimentalFoundationApi::class,
-    ExperimentalComposeUiApi::class, ExperimentalAnimationApi::class
+    ExperimentalAnimationApi::class
 )
 @Composable
 fun LiveScreen(viewModel: LiveScreenViewModel = hiltViewModel()) {
@@ -64,9 +63,30 @@ fun LiveScreen(viewModel: LiveScreenViewModel = hiltViewModel()) {
             },
             modifier = Modifier.fillMaxSize()
         ) {
-            if (state.success.isNotEmpty()) {
-                ConstraintLayout() {
-                    val (speedDialFab) = createRefs()
+            Box(modifier = Modifier.fillMaxSize()) {
+                if (state.error.isNotBlank()) {
+                    Text(
+                        text = "通信エラー",
+                        color = MaterialTheme.colors.error,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp)
+                            .align(Alignment.Center)
+                    )
+                }
+                if (state.isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(alignment = Alignment.Center)
+                    )
+                }
+            }
+
+
+            ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+                val (banner, speedDialFab) = createRefs()
+
+                if (state.success.isNotEmpty()) {
                     val listState = rememberLazyListState()
 
                     LazyColumn(
@@ -113,7 +133,7 @@ fun LiveScreen(viewModel: LiveScreenViewModel = hiltViewModel()) {
                         },
                         modifier = Modifier
                             .constrainAs(speedDialFab) {
-                                bottom.linkTo(parent.bottom, 16.dp)
+                                bottom.linkTo(banner.top, 16.dp)
                                 end.linkTo(parent.end, 16.dp)
                             },
                         fabClosedContent = { Icon(Icons.Filled.Sort, null) }
@@ -151,54 +171,38 @@ fun LiveScreen(viewModel: LiveScreenViewModel = hiltViewModel()) {
                             }
                         }
                     }
-                }
 
-            } else if (state.isLoading.not() && state.success.isEmpty()) {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    item {
-                        Text(
-                            text = stringResource(R.string.live_item_empty),
-                            style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold),
-                            modifier = Modifier.padding(16.dp)
-                        )
+
+                } else if (state.isLoading.not() && state.success.isEmpty()) {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        item {
+                            Text(
+                                text = stringResource(R.string.live_item_empty),
+                                style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold),
+                                modifier = Modifier.padding(16.dp)
+                            )
+                        }
+                        item {
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp)
+                            )
+                        }
                     }
-                    item {
-                        Spacer(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(50.dp)
-                        )
-                    }
                 }
-            }
-
-        }
-
-
-        Box() {
-            if (state.error.isNotBlank()) {
-                Text(
-                    text = "通信エラー",
-                    color = androidx.compose.material.MaterialTheme.colors.error,
-                    textAlign = TextAlign.Center,
+                adBanner(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                        .align(Alignment.Center)
+                        .constrainAs(banner) {
+                            bottom.linkTo(parent.bottom)
+                            start.linkTo(parent.start)
+                        }
                 )
             }
-            if (state.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(alignment = Alignment.Center))
-
-            }
         }
-
-        adBanner()
-
     }
-
 }

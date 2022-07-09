@@ -5,15 +5,16 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cidra.hologram_beta.R
 import com.cidra.hologram_beta.ui.screens.archive.component.adBanner
@@ -21,6 +22,7 @@ import com.cidra.hologram_beta.ui.screens.schedule.component.HeaderItem
 import com.cidra.hologram_beta.ui.screens.schedule.component.ScheduleListItem
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -45,121 +47,198 @@ fun ScheduleScreen(viewModel: ScheduleScreenViewModel = hiltViewModel()) {
                 isRefreshing = false
             }
         ) {
-            when (scheduleState) {
-                is ScheduleState.Today -> {
-                    LazyColumn() {
-                        stickyHeader {
-                            HeaderItem(day = "今日")
-                        }
-                        items(
-                            items = scheduleState.data,
-                            itemContent = { item ->
-                                ScheduleListItem(item = item, settingValue = timeNotation.value)
-                            }
-                        )
-                        item {
-                            Spacer(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(50.dp)
-                            )
-                        }
-                    }
-
+            Box(modifier = Modifier.fillMaxSize()) {
+                if (state.error.isNotBlank()) {
+                    Text(
+                        text = "通信エラー",
+                        color = MaterialTheme.colors.error,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp)
+                            .align(Alignment.Center)
+                    )
+                }
+                if (state.isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(alignment = Alignment.Center)
+                    )
 
                 }
-                is ScheduleState.Tomorrow -> {
-                    LazyColumn() {
-                        stickyHeader {
-                            HeaderItem(day = "明日")
-                        }
-                        items(
-                            items = scheduleState.data,
-                            itemContent = { item ->
-                                ScheduleListItem(item = item, settingValue = timeNotation.value)
+            }
+
+            ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+                val (banner, speedDialFab) = createRefs()
+
+                when (scheduleState) {
+                    is ScheduleState.Today -> {
+                        val listState = rememberLazyListState()
+                        LazyColumn(state = listState) {
+                            stickyHeader {
+                                HeaderItem(day = "今日")
                             }
-                        )
-                        item {
-                            Spacer(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(50.dp)
+                            items(
+                                items = scheduleState.data,
+                                itemContent = { item ->
+                                    ScheduleListItem(item = item, settingValue = timeNotation.value)
+                                }
                             )
-                        }
-                    }
-
-                }
-                is ScheduleState.TodayTomorrow -> {
-
-                    LazyColumn() {
-                        stickyHeader {
-                            HeaderItem(day = "今日")
-                        }
-                        items(
-                            items = scheduleState.data,
-                            itemContent = { item ->
-                                ScheduleListItem(item = item, settingValue = timeNotation.value)
+                            item {
+                                Spacer(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(50.dp)
+                                )
                             }
-                        )
-                        stickyHeader {
-                            HeaderItem(day = "明日")
                         }
-                        items(
-                            items = scheduleState.data2,
-                            itemContent = { item ->
-                                ScheduleListItem(item = item, settingValue = timeNotation.value)
-                            }
-                        )
-                        item {
-                            Spacer(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(50.dp)
-                            )
-                        }
-                    }
-
-                }
-                is ScheduleState.Empty -> {
-                    Box() {
-                        Text(
-                            text = "配信予定はありません",
-                            color = MaterialTheme.colors.error,
-                            textAlign = TextAlign.Center,
+                        val scope = rememberCoroutineScope()
+                        FloatingActionButton(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 20.dp)
-                                .align(Alignment.Center)
+                                .constrainAs(speedDialFab) {
+                                    bottom.linkTo(banner.top, 16.dp)
+                                    end.linkTo(parent.end, 16.dp)
+                                },
+                            onClick = {
+                                scope.launch {
+                                    listState.animateScrollToItem(0)
+                                }
+                            }
+                        ) {
+                            Icon(Icons.Filled.ArrowUpward, null)
+                        }
+                        adBanner(
+                            modifier = Modifier
+                                .constrainAs(banner) {
+                                    bottom.linkTo(parent.bottom)
+                                    start.linkTo(parent.start)
+                                }
+                        )
+                    }
+                    is ScheduleState.Tomorrow -> {
+                        val listState = rememberLazyListState()
+                        LazyColumn(state = listState) {
+                            stickyHeader {
+                                HeaderItem(day = "明日")
+                            }
+                            items(
+                                items = scheduleState.data,
+                                itemContent = { item ->
+                                    ScheduleListItem(item = item, settingValue = timeNotation.value)
+                                }
+                            )
+                            item {
+                                Spacer(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(50.dp)
+                                )
+                            }
+                        }
+                        val scope = rememberCoroutineScope()
+
+                        FloatingActionButton(
+                            modifier = Modifier
+                                .constrainAs(speedDialFab) {
+                                    bottom.linkTo(banner.top, 16.dp)
+                                    end.linkTo(parent.end, 16.dp)
+                                },
+                            onClick = {
+                                scope.launch {
+                                    listState.animateScrollToItem(0)
+                                }
+                            }
+                        ) {
+                            Icon(Icons.Filled.ArrowUpward, null)
+                        }
+
+                        adBanner(
+                            modifier = Modifier
+                                .constrainAs(banner) {
+                                    bottom.linkTo(parent.bottom)
+                                    start.linkTo(parent.start)
+                                }
+                        )
+
+                    }
+                    is ScheduleState.TodayTomorrow -> {
+                        val listState = rememberLazyListState()
+                        LazyColumn(state = listState) {
+                            stickyHeader {
+                                HeaderItem(day = "今日")
+                            }
+                            items(
+                                items = scheduleState.data,
+                                itemContent = { item ->
+                                    ScheduleListItem(item = item, settingValue = timeNotation.value)
+                                }
+                            )
+                            stickyHeader {
+                                HeaderItem(day = "明日")
+                            }
+                            items(
+                                items = scheduleState.data2,
+                                itemContent = { item ->
+                                    ScheduleListItem(item = item, settingValue = timeNotation.value)
+                                }
+                            )
+                            item {
+                                Spacer(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(50.dp)
+                                )
+                            }
+                        }
+
+                        val scope = rememberCoroutineScope()
+
+                        FloatingActionButton(
+                            modifier = Modifier
+                                .constrainAs(speedDialFab) {
+                                    bottom.linkTo(banner.top, 16.dp)
+                                    end.linkTo(parent.end, 16.dp)
+                                },
+                            onClick = {
+                                scope.launch {
+                                    listState.animateScrollToItem(0)
+                                }
+                            }
+                        ) {
+                            Icon(Icons.Filled.ArrowUpward, null)
+                        }
+                        adBanner(
+                            modifier = Modifier
+                                .constrainAs(banner) {
+                                    bottom.linkTo(parent.bottom)
+                                    start.linkTo(parent.start)
+                                }
+                        )
+                    }
+                    is ScheduleState.Empty -> {
+                        Box() {
+                            Text(
+                                text = "配信予定はありません",
+                                color = MaterialTheme.colors.error,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 20.dp)
+                                    .align(Alignment.Center)
+                            )
+                        }
+
+                        adBanner(
+                            modifier = Modifier
+                                .constrainAs(banner) {
+                                    bottom.linkTo(parent.bottom)
+                                    start.linkTo(parent.start)
+                                }
                         )
                     }
                 }
             }
         }
-
-        Box {
-            if (state.error.isNotBlank()) {
-                Text(
-                    text = "通信エラー",
-                    color = MaterialTheme.colors.error,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                        .align(Alignment.Center)
-                )
-                adBanner()
-            }
-            if (state.isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(alignment = Alignment.Center)
-                )
-
-            }
-        }
-        adBanner()
-
     }
-
 }
 
 

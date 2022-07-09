@@ -1,10 +1,7 @@
 package com.cidra.hologram_beta.ui.screens.archive
 
 import android.util.Log
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -156,24 +153,24 @@ fun ArchiveScreen(viewModel: ArchiveScreenViewModel = hiltViewModel()) {
         ) {
             ChipGroup(chipContentMap, selectedChip, viewModel)
         }
-        val showFAB by remember {
-            derivedStateOf {
-                listState.firstVisibleItemIndex > 0
-            }
-        }
-        AnimatedVisibility(
-            visible = showFAB,
-            modifier = Modifier
-                .constrainAs(speedDial) {
-                    bottom.linkTo(chipGroup.top, 16.dp)
-                    end.linkTo(parent.end, 16.dp)
-                },
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-
-
-        }
+//        val showFAB by remember {
+//            derivedStateOf {
+//                listState.firstVisibleItemIndex > 0
+//            }
+//        }
+//        AnimatedVisibility(
+//            visible = showFAB,
+//            modifier = Modifier
+//                .constrainAs(speedDial) {
+//                    bottom.linkTo(chipGroup.top, 16.dp)
+//                    end.linkTo(parent.end, 16.dp)
+//                },
+//            enter = fadeIn(),
+//            exit = fadeOut()
+//        ) {
+//
+//
+//        }
 
         var speedDialState by rememberSaveable { mutableStateOf(SpeedDialState.Collapsed) }
         var overlayVisible: Boolean by rememberSaveable { mutableStateOf(speedDialState.isExpanded()) }
