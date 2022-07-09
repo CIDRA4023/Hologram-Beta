@@ -170,7 +170,6 @@ private fun openApp(item: LiveItem, settingValue: Int, context: Context) {
         }
         R.string.setting_open_app_web_view -> {
 //            WebViewScreens(url = url)
-
         }
         R.string.setting_open_app_browser -> {
             val browserIntent = Intent(ACTION_VIEW, Uri.parse("https://"))
@@ -186,33 +185,6 @@ private fun openApp(item: LiveItem, settingValue: Int, context: Context) {
         }
     }
 }
-//@Composable
-//fun web() {
-//    val visibility = remember { mutableStateOf(false) }
-//    Box(modifier = Modifier
-//        .fillMaxSize() ){
-//        AndroidView(
-//            factory = {
-//                WebView(it).apply {
-//                    webViewClient = WebViewClient()
-//                    settings.javaScriptEnabled = true
-//                }
-//            },
-//            update = { webView ->
-//                webView.webViewClient = object : WebViewClient() {
-//                    override fun onPageStarted(
-//                        view: WebView,
-//                        url: String,
-//                        favicon: Bitmap?,
-//                    ) {
-//                        visibility.value = true
-//                    }
-//                }
-//                webView.loadUrl(url)
-//            }
-//        )
-//    }
-//}
 
 @Preview
 @Composable

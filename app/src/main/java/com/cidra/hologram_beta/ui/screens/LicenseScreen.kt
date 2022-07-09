@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import com.cidra.hologram_beta.R
 
@@ -25,7 +26,7 @@ data class LicenseItem(
 )
 
 @Composable
-fun LicenseScreen(navController: NavController) {
+fun LicenseScreen(navController: NavController, navBackStackEntry: NavBackStackEntry?) {
     val sectionItem = listOf(
         LicenseItem(
             0,
@@ -62,9 +63,8 @@ fun LicenseScreen(navController: NavController) {
             TopAppBar(
                 title = { Text(text = "ライセンス") },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBack, null)
-                    }
+                    IconButton(onClick = { navController.navigateUp() })
+                    { Icon(Icons.Filled.ArrowBack, null) }
                 },
                 elevation = 0.dp
             )

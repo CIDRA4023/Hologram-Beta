@@ -27,6 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.cidra.hologram_beta.R
+import com.cidra.hologram_beta.ui.screens.LicenseScreen
 import com.cidra.hologram_beta.ui.screens.ScreenHolder
 import com.cidra.hologram_beta.ui.screens.archive.ArchiveScreen
 import com.cidra.hologram_beta.ui.screens.component.CustomRippleTheme
@@ -69,6 +70,10 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = "this_app") {
                             ThisAppScreen(navController, navBackStackEntry)
+                        }
+                        composable("license_screen")
+                        {
+                            LicenseScreen(navController, navBackStackEntry)
                         }
                     }
                 }

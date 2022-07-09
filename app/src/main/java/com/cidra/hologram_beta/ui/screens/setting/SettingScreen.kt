@@ -58,12 +58,8 @@ fun SettingTopBar(navController: NavController, navBackStackEntry: NavBackStackE
     TopAppBar(
         title = { Text("設定") },
         navigationIcon = {
-            IconButton(onClick = {
-                if (navBackStackEntry?.destination?.route != "main") {
-                    navController.popBackStack()
-                }
-            }
-            ) { Icon(Icons.Filled.ArrowBack, null) }
+            IconButton(onClick = { navController.navigateUp() })
+            { Icon(Icons.Filled.ArrowBack, null) }
         },
         elevation = 0.dp
     )
@@ -253,7 +249,7 @@ fun OpenAppDialog(
     val buttonList = listOf(
         R.string.setting_open_app_youtube,
         R.string.setting_open_app_browser,
-        R.string.setting_open_app_web_view
+//        R.string.setting_open_app_web_view
     )
     if (openDialog.value) {
         AlertDialog(
