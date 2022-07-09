@@ -27,6 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.cidra.hologram_beta.BuildConfig
+import com.cidra.hologram_beta.ui.screens.LicenseScreen
 import com.cidra.hologram_beta.ui.screens.archive.component.adBanner
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -34,7 +35,6 @@ import java.nio.charset.StandardCharsets
 data class ThisAppItem(
     val id: Int,
     val title: String,
-//    val IconResource: ImageVector,
     val url: String
 )
 
@@ -49,7 +49,6 @@ fun ThisAppScreen(navController: NavController, navBackStackEntry: NavBackStackE
         composable(
             "main_app",
         ) { backStackEntry ->
-//                    val url = backStackEntry.arguments?.getString("url") ?: ""
             MainThisAppContent(navController = navController, navBackStackEntry)
         }
         composable(
@@ -59,6 +58,12 @@ fun ThisAppScreen(navController: NavController, navBackStackEntry: NavBackStackE
         { backStackEntry ->
             val url = backStackEntry.arguments?.getString("url") ?: ""
             WebViewScreen(navController = navController, url)
+        }
+        composable(
+            "license_screen",
+        )
+        { backStackEntry ->
+            LicenseScreen(navController)
         }
     }
 
@@ -128,7 +133,7 @@ fun MainThisAppContent(navController: NavController, navBackStackEntry: NavBackS
                                         URLEncoder.encode(it.url, StandardCharsets.UTF_8.toString())
                                     navController.navigate("web/${parsedUrl}")
                                 } else if (it.id == 3) {
-
+                                    navController.navigate("license_screen")
                                 }
 
                             }
@@ -139,41 +144,12 @@ fun MainThisAppContent(navController: NavController, navBackStackEntry: NavBackS
                             text = it.title,
                             color = MaterialTheme.colors.onSurface
                         )
-//                        Icon(
-//                            it.IconResource,
-//                            null,
-//                            modifier = Modifier.align(Alignment.CenterEnd)
-//                        )
-
                     }
                 }
-
-
-//            Text(
-//                text = version,
-//                color = Color.Gray,
-//                fontSize = 18.sp,
-//                modifier = Modifier
-//                    .align(Alignment.CenterHorizontally)
-//                    .padding(bottom = 20.dp)
-//                    .clickable {
-////                        interactionSource = remember { MutableInteractionSource() },
-////                        indication = rememberRipple(
-////                            color = MaterialTheme.colors.primary,
-////                            bounded = false,
-////                            radius = 50.dp
-////                        )
-//
-//                    }
-//            )
             }
         }
         adBanner()
-
-
     }
-
-
 }
 
 @Composable
@@ -185,7 +161,9 @@ fun WebViewScreen(navController: NavController, url: String) {
             TopAppBar(
                 title = { Text(text = "利用規約") },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                    }) {
                         Icon(Icons.Filled.ArrowBack, null)
                     }
                 },
@@ -245,10 +223,3 @@ fun ThisAppTopBar(navController: NavController, navBackStackEntry: NavBackStackE
         elevation = 0.dp
     )
 }
-//
-//@Preview
-//@Composable
-//fun ThisAppPrev() {
-//    val context = LocalContext.current
-//    ThisAppScreen(navController = NavController(context))
-//}

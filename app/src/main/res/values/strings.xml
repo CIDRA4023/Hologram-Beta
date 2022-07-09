@@ -33,6 +33,10 @@
 
     <string name="setting_dialog_cancel_label" translatable="false">キャンセル</string>
 
+    <string name="license_desc_twemoji">Twitter Emoji licensed under CC-BY 4.0</string>
+    <string name="license_desc_coil">coil licensed under Apache License Version 2.0</string>
+    <string name="license_desc_SpeedDialFloatingActionButton">SpeedDialFloatingActionButton licensed under Apache License Version 2.0</string>
+
     <string name="tag_category_game" translatable="false">ゲーム</string>
     <string name="tag_category_sing" translatable="false">歌枠</string>
     <string name="tag_category_live" translatable="false">LIVE</string>
