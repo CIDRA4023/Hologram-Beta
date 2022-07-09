@@ -105,7 +105,12 @@ fun ThisAppScreen(navController: NavController, navBackStackEntry: NavBackStackE
                 }
             }
         }
-        adBanner()
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            adBanner()
+        }
     }
 
 }

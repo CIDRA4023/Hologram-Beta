@@ -16,10 +16,8 @@ fun adBanner(modifier: Modifier = Modifier) {
     val displayMetrics = Resources.getSystem().displayMetrics
     val adWidth = (displayMetrics.widthPixels / displayMetrics.density).toInt()
 
-    Box(
-        modifier = modifier,
-//        contentAlignment = Alignment.BottomCenter
-    ) {
+    Box(modifier = modifier)
+    {
         AndroidView(
             modifier = Modifier.fillMaxWidth(),
             factory = { context ->

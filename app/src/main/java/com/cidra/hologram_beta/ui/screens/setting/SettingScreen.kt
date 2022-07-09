@@ -176,7 +176,12 @@ fun SettingContent(viewModel: SettingViewModel) {
 
         }
     }
-    adBanner()
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter
+    ) {
+        adBanner()
+    }
 
 
 }
