@@ -37,10 +37,10 @@ fun LicenseScreen(navController: NavController, navBackStackEntry: NavBackStackE
         ),
         LicenseItem(
             1,
-            "SpeedDialFloatingActionButton",
-            "© 2021 ch4rl3x",
+            "FloatingActionButtonSpeedDial",
+            "© 2021 Roberto Leinardi",
             stringResource(id = R.string.license_desc_SpeedDialFloatingActionButton),
-            "https://github.com/ch4rl3x/SpeedDialFloatingActionButton"
+            "https://github.com/leinardi/FloatingActionButtonSpeedDial"
         ),
         LicenseItem(
             3,

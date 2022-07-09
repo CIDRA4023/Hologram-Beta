@@ -14,9 +14,11 @@
 
     <string name="separate_string" translatable="false">・</string>
 
-
     <string name="live_item_start_suffix" translatable="false">に配信開始</string>
 
+    <string name="archive_fab_label_viewers" translatable="false">再生回数</string>
+    <string name="archive_fab_label_update" translatable="false">投稿時間</string>
+    <string name="archive_fab_label_good" translatable="false">高評価</string>
 
     <string name="setting_filter_holo_JP">ホロライブ</string>
     <string name="setting_filter_holo_ID">ホロライブID</string>
@@ -35,7 +37,7 @@
 
     <string name="license_desc_twemoji">Twitter Emoji licensed under CC-BY 4.0</string>
     <string name="license_desc_coil">coil licensed under Apache License Version 2.0</string>
-    <string name="license_desc_SpeedDialFloatingActionButton">SpeedDialFloatingActionButton licensed under Apache License Version 2.0</string>
+    <string name="license_desc_SpeedDialFloatingActionButton">FloatingActionButtonSpeedDial licensed under Apache License Version 2.0</string>
 
     <string name="tag_category_game" translatable="false">ゲーム</string>
     <string name="tag_category_sing" translatable="false">歌枠</string>

@@ -2,6 +2,7 @@ package com.cidra.hologram_beta.ui.screens.archive
 
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -9,25 +10,26 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Sort
+import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cidra.hologram_beta.R
-
 import com.cidra.hologram_beta.ui.dateAgo
 import com.cidra.hologram_beta.ui.screens.archive.component.ArchiveListItem
 import com.cidra.hologram_beta.ui.screens.archive.component.ChipGroup
@@ -35,8 +37,10 @@ import com.cidra.hologram_beta.ui.screens.component.LazyBox
 import com.cidra.hologram_beta.ui.screens.component.ModifierCacheHolder
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import de.charlex.compose.SpeedDialData
-import de.charlex.compose.SpeedDialFloatingActionButton
+import com.leinardi.android.speeddial.compose.FabWithLabel
+import com.leinardi.android.speeddial.compose.SpeedDial
+import com.leinardi.android.speeddial.compose.SpeedDialOverlay
+import com.leinardi.android.speeddial.compose.SpeedDialState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -44,7 +48,7 @@ import java.util.*
 
 @OptIn(
     ExperimentalMaterialApi::class,
-    ExperimentalFoundationApi::class
+    ExperimentalFoundationApi::class, ExperimentalAnimationApi::class
 )
 @Composable
 fun ArchiveScreen(viewModel: ArchiveScreenViewModel = hiltViewModel()) {
@@ -157,7 +161,6 @@ fun ArchiveScreen(viewModel: ArchiveScreenViewModel = hiltViewModel()) {
                 listState.firstVisibleItemIndex > 0
             }
         }
-
         AnimatedVisibility(
             visible = showFAB,
             modifier = Modifier
@@ -169,14 +172,83 @@ fun ArchiveScreen(viewModel: ArchiveScreenViewModel = hiltViewModel()) {
             exit = fadeOut()
         ) {
 
-            SpeedDialFAB(
-                modifier = Modifier
-                    .wrapContentSize(),
-                viewModel,
-                listState
-            )
+
         }
 
+        var speedDialState by rememberSaveable { mutableStateOf(SpeedDialState.Collapsed) }
+        var overlayVisible: Boolean by rememberSaveable { mutableStateOf(speedDialState.isExpanded()) }
+
+        SpeedDialOverlay(
+            visible = overlayVisible,
+            onClick = {
+                overlayVisible = false
+                speedDialState = speedDialState.toggle()
+            },
+            color = MaterialTheme.colors.primary.copy(alpha = ContentAlpha.medium)
+        )
+
+        SpeedDial(
+            state = speedDialState,
+            onFabClick = { expanded ->
+                speedDialState = speedDialState.toggle()
+                overlayVisible = speedDialState.isExpanded()
+            },
+            modifier = Modifier
+                .constrainAs(speedDial) {
+                    bottom.linkTo(chipGroup.top, 16.dp)
+                    end.linkTo(parent.end, 16.dp)
+                },
+            fabClosedContent = { Icon(Icons.Filled.Sort, null) }
+        ) {
+            item {
+                FabWithLabel(
+                    onClick = {
+                        scope.launch {
+                            overlayVisible = false
+                            speedDialState = speedDialState.toggle()
+                            viewModel.sortByViewer()
+                            delay(500)
+                            listState.animateScrollToItem(0)
+                        }
+                    },
+                    labelContent = { Text(text = stringResource(id = R.string.archive_fab_label_viewers)) },
+                ) {
+                    Icon(Icons.Filled.Visibility, null)
+                }
+            }
+            item {
+                FabWithLabel(
+                    onClick = {
+                        scope.launch {
+                            overlayVisible = false
+                            speedDialState = speedDialState.toggle()
+                            viewModel.sorByUpdate()
+                            delay(500)
+                            listState.animateScrollToItem(0)
+                        }
+                    },
+                    labelContent = { Text(text = stringResource(id = R.string.archive_fab_label_update)) },
+                ) {
+                    Icon(Icons.Filled.Schedule, null)
+                }
+            }
+            item {
+                FabWithLabel(
+                    onClick = {
+                        scope.launch {
+                            overlayVisible = false
+                            speedDialState = speedDialState.toggle()
+                            viewModel.sortByGood()
+                            delay(500)
+                            listState.animateScrollToItem(0)
+                        }
+                    },
+                    labelContent = { Text(text = stringResource(id = R.string.archive_fab_label_good)) },
+                ) {
+                    Icon(Icons.Filled.ThumbUp, null)
+                }
+            }
+        }
     }
 
 
@@ -199,74 +271,6 @@ fun ArchiveScreen(viewModel: ArchiveScreenViewModel = hiltViewModel()) {
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun SpeedDialFAB(modifier: Modifier, viewModel: ArchiveScreenViewModel, listState: LazyListState) {
-    val scope = rememberCoroutineScope()
-
-    SpeedDialFloatingActionButton(
-        modifier = modifier,
-        initialExpanded = false,
-        onClick = { speedDialData: SpeedDialData? ->
-            if (speedDialData != null) {
-                when (speedDialData.name) {
-                    "fab_viewer" -> {
-                        scope.launch {
-                            viewModel.sortByViewer()
-                            delay(500)
-                            listState.animateScrollToItem(0)
-                        }
-                        Log.i("speedDial", "speed1")
-                    }
-                    "fab_update" -> {
-                        scope.launch {
-                            viewModel.sorByUpdate()
-                            delay(500)
-                            listState.animateScrollToItem(0)
-                        }
-                        Log.i("speedDial", "speed2")
-                    }
-                    "fab_good" -> {
-                        scope.launch {
-                            viewModel.sortByGood()
-                            delay(500)
-                            listState.animateScrollToItem(0)
-                        }
-                        Log.i("speedDial", "speed3")
-                    }
-                }
-
-            }
-        },
-        animationDuration = 200,
-        animationDelayPerSelection = 50,
-        speedDialData = listOf(
-            SpeedDialData(
-                name = "fab_viewer",
-                label = "再生回数",
-                painter = painterResource(id = R.drawable.ic_baseline_visibility_24)
-            ),
-            SpeedDialData(
-                name = "fab_update",
-                label = "投稿時間",
-                painter = painterResource(id = R.drawable.ic_baseline_schedule_24)
-            ),
-            SpeedDialData(
-                name = "fab_good",
-                label = "いいね",
-                painterResource = R.drawable.ic_baseline_thumb_up_24
-            )
-        ),
-        showLabels = true,
-        fabBackgroundColor = MaterialTheme.colors.secondary,
-        fabContentColor = MaterialTheme.colors.onSecondary,
-        speedDialBackgroundColor = MaterialTheme.colors.secondary,
-        speedDialContentColor = MaterialTheme.colors.onSecondary
-
-
-    )
-
-}
 
 
 

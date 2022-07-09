@@ -37,7 +37,7 @@ class LiveScreenViewModel @Inject constructor(
                 is Resource.Success -> {
                     repoPreferencesRepository.getGroupFilter().collect() { settingValue ->
                         val filteredList = filteredGroup(settingValue, result.data ?: emptyList())
-                        _liveItem.value = LiveItemState(live = filteredList)
+                        _liveItem.value = LiveItemState(success = filteredList)
                     }
 
                 }
@@ -72,13 +72,29 @@ class LiveScreenViewModel @Inject constructor(
 
     fun getOpenApp() = repoPreferencesRepository.getOpenApp()
 
+
+    fun sortByCurrentViewer() {
+        val sortedList = _liveItem.value.success
+            .sortedByDescending {
+                it.currentViewers
+            }
+        _liveItem.value = LiveItemState(success = sortedList)
+    }
+
+    fun sorByStartTime() {
+        val sortedList = _liveItem.value.success
+            .sortedByDescending {
+                it.startTime
+            }
+        _liveItem.value = LiveItemState(success = sortedList)
+    }
 }
 
 
 @Stable
 data class LiveItemState(
     val isLoading: Boolean = false,
-    val live: List<LiveItem> = emptyList(),
+    val success: List<LiveItem> = emptyList(),
     val error: String = ""
 )
 

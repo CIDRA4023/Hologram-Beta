@@ -21,9 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.cidra.hologram_beta.R
 import com.cidra.hologram_beta.common.TagList
 import com.cidra.hologramjetpackcompose.Common.Constants
@@ -215,35 +213,6 @@ fun selectChipFanMarkIcon(chipLabel: String): Int? {
         "緋崎ガンマ" -> R.drawable.ic_gamma
         "水無世燐央" -> R.drawable.ic_rio
         else -> null
-    }
-}
-
-
-@OptIn(ExperimentalMaterialApi::class)
-@Preview
-@Composable
-fun ChipIcon() {
-
-    Chip(
-        onClick = { },
-        leadingIcon = {
-            Image(
-                painter = painterResource(id = R.drawable.ic_botan),
-                modifier = Modifier.size(20.dp),
-                contentDescription = null
-            )
-        },
-        border = ChipDefaults.outlinedBorder,
-        colors = ChipDefaults.outlinedChipColors(
-            disabledContentColor = Color.Transparent
-        ),
-
-        ) {
-        Text(
-            text = "獅白ぼたん",
-            style = MaterialTheme.typography.body2
-                .copy(fontSize = 12.sp)
-        )
     }
 }
 

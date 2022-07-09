@@ -108,5 +108,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:21.0.0'
 
     // speed-dial
-    implementation 'de.charlex.compose:speeddial:1.0.0-beta03'
+    implementation "com.leinardi.android:speed-dial.compose:1.0.0-alpha04"
 }

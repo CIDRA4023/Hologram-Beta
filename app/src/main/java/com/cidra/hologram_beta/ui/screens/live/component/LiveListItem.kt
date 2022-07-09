@@ -22,7 +22,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -40,7 +39,8 @@ import java.util.*
 @Composable
 fun LiveListItem(
     item: LiveItem,
-    settingValue: Int
+    settingValue: Int,
+    modifier: Modifier
 ) {
 
 
@@ -184,21 +184,4 @@ private fun openApp(item: LiveItem, settingValue: Int, context: Context) {
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun ListItemPreview() {
-    val i = LiveItem(
-        "0",
-        "aaaaaaaaaaaaaaaaaaaaaaaa",
-        "https://i.ytimg.com/vi/RGsmcgWw7Z8/sddefault.jpg",
-        "1111",
-        "11111",
-        "aaa",
-        "https://i.ytimg.com/vi/RGsmcgWw7Z8/sddefault.jpg",
-        listOf("aaa", "bbb"),
-        "ttt"
-    )
-//    LiveListItem(item = i)
 }
