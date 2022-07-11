@@ -40,6 +40,10 @@ android {
     buildFeatures {
         compose true
     }
+    defaultConfig {
+        manifestPlaceholders = [adAppId: project.property("adAppId")]
+        buildConfigField "String", "BANNER_ID", "\"${project.property("adBannerId")}\""
+    }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
     }
