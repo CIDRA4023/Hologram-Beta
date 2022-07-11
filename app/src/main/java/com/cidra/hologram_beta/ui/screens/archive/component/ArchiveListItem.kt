@@ -26,10 +26,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.cidra.hologram_beta.R
 import com.cidra.hologram_beta.domain.model.ArchiveItem
-import com.cidra.hologram_beta.ui.archiveViewersFormatter
-import com.cidra.hologram_beta.ui.dateTimeToLong
-import com.cidra.hologram_beta.ui.durationFormatter
-import com.cidra.hologram_beta.ui.relativeTimeFormatter
+import com.cidra.hologram_beta.ui.*
 import com.cidra.hologram_beta.ui.screens.component.MaterialChipGroup
 import com.cidra.hologramjetpackcompose.Common.Constants
 import java.util.*
@@ -39,15 +36,13 @@ import kotlin.time.Duration.Companion.days
 @Composable
 fun ArchiveListItem(
     item: ArchiveItem,
+    openApp: Int,
     modifier: Modifier
 ) {
     val context = LocalContext.current
 
-    val intent = Intent(Intent.ACTION_VIEW)
-    intent.data = Uri.parse(Constants.YOUTUBE_WATCH_BASE_URL + item.videoId)
-
     Surface(
-        modifier = modifier.clickable { context.startActivity(intent) },
+        modifier = modifier.clickable { openApp(item.videoId, openApp, context) },
     ) {
         Column() {
             Row(

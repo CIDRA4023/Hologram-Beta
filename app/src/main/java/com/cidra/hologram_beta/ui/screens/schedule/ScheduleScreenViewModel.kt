@@ -105,6 +105,8 @@ class ScheduleScreenViewModel @Inject constructor(
     }
 
     fun getTimeNotation() = repoPreferencesRepository.getTimeNotation()
+
+    fun getOpenApp() = repoPreferencesRepository.getOpenApp()
 }
 
 @Stable

@@ -23,6 +23,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import com.cidra.hologram_beta.domain.model.ScheduleItem
+import com.cidra.hologram_beta.ui.openApp
 import com.cidra.hologram_beta.ui.screens.component.MaterialChipGroup
 import com.cidra.hologram_beta.ui.timeNotationFormatter
 import com.cidra.hologramjetpackcompose.Common.Constants
@@ -30,13 +31,11 @@ import com.cidra.hologramjetpackcompose.Common.Constants
 @Composable
 fun ScheduleListItem(
     item: ScheduleItem,
-    settingValue: Int
+    timeNotation: Int,
+    openApp: Int
 ) {
 
     val context = LocalContext.current
-
-    val intent = Intent(Intent.ACTION_VIEW)
-    intent.data = Uri.parse(Constants.YOUTUBE_WATCH_BASE_URL + item.videoId)
 
     Surface() {
         ConstraintLayout(
@@ -47,7 +46,7 @@ fun ScheduleListItem(
             val (scheduleTime, card, line, icon) = createRefs()
 
             Card(modifier = Modifier
-                .clickable { context.startActivity(intent) }
+                .clickable { openApp(item.videoId, openApp, context) }
                 .constrainAs(card) {
                     top.linkTo(scheduleTime.bottom, 8.dp)
                     bottom.linkTo(parent.bottom, 16.dp)
@@ -62,7 +61,7 @@ fun ScheduleListItem(
                 CardContent(item)
             }
             Text(
-                text = timeNotationFormatter(item.scheduledStartTime, settingValue),
+                text = timeNotationFormatter(item.scheduledStartTime, timeNotation),
                 style = MaterialTheme.typography.body2.copy(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold

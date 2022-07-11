@@ -54,6 +54,9 @@ fun ArchiveScreen(viewModel: ArchiveScreenViewModel = hiltViewModel()) {
 
     val sdfD = SimpleDateFormat("dd", Locale.getDefault())
 
+    val openAppValue =
+        viewModel.getOpenApp().collectAsState(initial = R.string.setting_open_app_youtube)
+
     val selectedChip = remember { mutableStateOf(0) }
     Log.i("selectedChip", "${selectedChip.value}")
 
@@ -127,7 +130,7 @@ fun ArchiveScreen(viewModel: ArchiveScreenViewModel = hiltViewModel()) {
                         items = success,
                         key = { it.videoId }
                     ) { success ->
-                        ArchiveListItem(item = success, modifier = Modifier.animateItemPlacement())
+                        ArchiveListItem(item = success, openApp = openAppValue.value, modifier = Modifier.animateItemPlacement())
                     }
                 }
             }

@@ -106,6 +106,8 @@ class ArchiveScreenViewModel @Inject constructor(
         }
     }
 
+    fun getOpenApp() = repoPreferencesRepository.getOpenApp()
+
     fun sortByViewer() {
         val sortedList = _archiveItem.value.success
             .sortedByDescending {

@@ -1,8 +1,13 @@
 package com.cidra.hologram_beta.ui
 
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.util.Log
 import com.cidra.hologram_beta.R
+import com.cidra.hologram_beta.domain.model.LiveItem
+import com.cidra.hologramjetpackcompose.Common.Constants
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.ceil
@@ -238,6 +243,34 @@ fun relativeTimeFormatter(context: Context, current: Long, previous: Long): Stri
         }
         else -> {
             ""
+        }
+    }
+}
+
+fun openApp(videoId: String, settingValue: Int, context: Context) {
+
+    val intent = Intent(Intent.ACTION_VIEW)
+    val url = Constants.YOUTUBE_WATCH_BASE_URL + videoId
+    intent.data = Uri.parse(url)
+
+    when (settingValue) {
+        R.string.setting_open_app_youtube -> {
+            context.startActivity(intent)
+        }
+        R.string.setting_open_app_web_view -> {
+//            WebViewScreens(url = url)
+        }
+        R.string.setting_open_app_browser -> {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://"))
+            val defaultResInfo =
+                context.packageManager.resolveActivity(
+                    browserIntent,
+                    PackageManager.MATCH_DEFAULT_ONLY
+                )
+            if (defaultResInfo != null) {
+                intent.setPackage(defaultResInfo.activityInfo.packageName)
+                context.startActivity(intent)
+            }
         }
     }
 }

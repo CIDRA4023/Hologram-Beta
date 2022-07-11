@@ -31,6 +31,7 @@ import com.cidra.hologram_beta.R
 import com.cidra.hologram_beta.domain.model.LiveItem
 import com.cidra.hologram_beta.ui.dateTimeToLong
 import com.cidra.hologram_beta.ui.liveViewersFormatter
+import com.cidra.hologram_beta.ui.openApp
 import com.cidra.hologram_beta.ui.relativeTimeFormatter
 import com.cidra.hologram_beta.ui.screens.component.MaterialChipGroup
 import com.cidra.hologramjetpackcompose.Common.Constants
@@ -43,11 +44,7 @@ fun LiveListItem(
     modifier: Modifier
 ) {
 
-
     val context = LocalContext.current
-
-    val intent = Intent(ACTION_VIEW)
-    intent.data = Uri.parse(Constants.YOUTUBE_WATCH_BASE_URL + item.videoId)
 
     Card(
         shape = RoundedCornerShape(0)
@@ -56,7 +53,7 @@ fun LiveListItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .clickable { openApp(item, settingValue, context) }
+                .clickable { openApp(item.videoId, settingValue, context) }
         ) {
             val (thumbnailImage, channelImage, title, subtitle, spacer, tagChip) = createRefs()
 
@@ -157,31 +154,4 @@ fun LiveListItem(
     }
 }
 
-//@Composable
-private fun openApp(item: LiveItem, settingValue: Int, context: Context) {
 
-    val intent = Intent(ACTION_VIEW)
-    val url = Constants.YOUTUBE_WATCH_BASE_URL + item.videoId
-    intent.data = Uri.parse(url)
-
-    when (settingValue) {
-        R.string.setting_open_app_youtube -> {
-            context.startActivity(intent)
-        }
-        R.string.setting_open_app_web_view -> {
-//            WebViewScreens(url = url)
-        }
-        R.string.setting_open_app_browser -> {
-            val browserIntent = Intent(ACTION_VIEW, Uri.parse("https://"))
-            val defaultResInfo =
-                context.packageManager.resolveActivity(
-                    browserIntent,
-                    PackageManager.MATCH_DEFAULT_ONLY
-                )
-            if (defaultResInfo != null) {
-                intent.setPackage(defaultResInfo.activityInfo.packageName)
-                context.startActivity(intent)
-            }
-        }
-    }
-}

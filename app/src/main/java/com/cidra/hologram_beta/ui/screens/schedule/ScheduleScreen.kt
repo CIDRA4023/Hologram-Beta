@@ -35,6 +35,9 @@ fun ScheduleScreen(viewModel: ScheduleScreenViewModel = hiltViewModel()) {
     val timeNotation =
         viewModel.getTimeNotation().collectAsState(initial = R.string.setting_time_notation_12hour)
 
+    val openAppValue =
+        viewModel.getOpenApp().collectAsState(initial = R.string.setting_open_app_youtube)
+
 
     var isRefreshing by remember { mutableStateOf(false) }
 
@@ -80,7 +83,7 @@ fun ScheduleScreen(viewModel: ScheduleScreenViewModel = hiltViewModel()) {
                             items(
                                 items = scheduleState.data,
                                 itemContent = { item ->
-                                    ScheduleListItem(item = item, settingValue = timeNotation.value)
+                                    ScheduleListItem(item = item, timeNotation = timeNotation.value, openApp = openAppValue.value)
                                 }
                             )
                             item {
@@ -123,7 +126,7 @@ fun ScheduleScreen(viewModel: ScheduleScreenViewModel = hiltViewModel()) {
                             items(
                                 items = scheduleState.data,
                                 itemContent = { item ->
-                                    ScheduleListItem(item = item, settingValue = timeNotation.value)
+                                    ScheduleListItem(item = item, timeNotation = timeNotation.value, openApp = openAppValue.value)
                                 }
                             )
                             item {
@@ -169,7 +172,7 @@ fun ScheduleScreen(viewModel: ScheduleScreenViewModel = hiltViewModel()) {
                             items(
                                 items = scheduleState.data,
                                 itemContent = { item ->
-                                    ScheduleListItem(item = item, settingValue = timeNotation.value)
+                                    ScheduleListItem(item = item, timeNotation = timeNotation.value, openApp = openAppValue.value)
                                 }
                             )
                             stickyHeader {
@@ -178,7 +181,7 @@ fun ScheduleScreen(viewModel: ScheduleScreenViewModel = hiltViewModel()) {
                             items(
                                 items = scheduleState.data2,
                                 itemContent = { item ->
-                                    ScheduleListItem(item = item, settingValue = timeNotation.value)
+                                    ScheduleListItem(item = item, timeNotation = timeNotation.value, openApp = openAppValue.value)
                                 }
                             )
                             item {
